@@ -1,0 +1,71 @@
+# Corre o monitor de preços a cada 10 minutos nos servidores do GitHub
+name: Monitor Viagogo
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: "normal = verificar preços | calibrar = analisar um concerto e guardar captura"
+        type: choice
+        options: [normal, calibrar]
+        default: normal
+      concerto:
+        description: "N.º do concerto a calibrar (0 = primeiro da lista)"
+        default: "0"
+
+# Nunca corre duas verificações ao mesmo tempo
+concurrency:
+  group: monitor-viagogo
+  cancel-in-progress: false
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar Playwright
+        run: |
+          pip install playwright
+          python -m playwright install --with-deps chromium
+
+      # Recupera o estado da execução anterior (último preço, alertas já enviados)
+      - name: Recuperar estado
+        uses: actions/cache/restore@v4
+        with:
+          path: estado.json
+          key: estado-${{ github.run_id }}
+          restore-keys: estado-
+
+      - name: Verificar preços
+        if: ${{ github.event_name == 'schedule' || inputs.modo == 'normal' }}
+        env:
+          NTFY_TOPICO: ${{ secrets.NTFY_TOPICO }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: xvfb-run -a python monitor.py --uma-vez
+
+      - name: Calibrar
+        if: ${{ inputs.modo == 'calibrar' }}
+        run: xvfb-run -a python monitor.py --calibrar ${{ inputs.concerto }}
+
+      - name: Guardar captura da calibração
+        if: ${{ inputs.modo == 'calibrar' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: calibracao
+          path: calibracao.*
+
+      - name: Guardar estado
+        if: ${{ always() && hashFiles('estado.json') != '' }}
+        uses: actions/cache/save@v4
+        with:
+          path: estado.json
+          key: estado-${{ github.run_id }}
