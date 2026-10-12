@@ -6,9 +6,15 @@
   "parametros_url": {
     "quantity": "2"
   },
+  "forcar_eur_no_site": false,
+  "margem_cambio_pct": 2,
   "seletor_preco": "",
   "headless": false,
   "alertar_falhas_apos": 3,
+  "pausa_entre_concertos_seg": [
+    3,
+    6
+  ],
   "notificacoes": {
     "ntfy_topico": "",
     "ntfy_servidor": "https://ntfy.sh",
@@ -17,12 +23,112 @@
   },
   "concertos": [
     {
+      "nome": "Estocolmo | 19 Mar 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041716"
+    },
+    {
+      "nome": "Estocolmo | 20 Mar 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041721"
+    },
+    {
+      "nome": "Amesterdão | 23 Mar 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041692"
+    },
+    {
+      "nome": "Amesterdão | 24 Mar 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041691"
+    },
+    {
+      "nome": "Amesterdão | 27 Mar 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161075570"
+    },
+    {
+      "nome": "Amesterdão | 28 Mar 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161075569"
+    },
+    {
+      "nome": "Munique | 01 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041697"
+    },
+    {
+      "nome": "Munique | 02 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041696"
+    },
+    {
+      "nome": "Londres | 05 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041561"
+    },
+    {
+      "nome": "Londres | 06 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041559"
+    },
+    {
+      "nome": "Londres | 08 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041560"
+    },
+    {
+      "nome": "Londres | 09 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041557"
+    },
+    {
+      "nome": "Londres | 12 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161075582"
+    },
+    {
+      "nome": "Londres | 14 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161075484"
+    },
+    {
+      "nome": "Londres | 15 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161075981"
+    },
+    {
+      "nome": "Londres | 19 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161075982"
+    },
+    {
+      "nome": "Londres | 20 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161092676"
+    },
+    {
       "nome": "Paris | 23 Abr 2027",
       "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161042233"
+    },
+    {
+      "nome": "Paris | 24 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161085502"
+    },
+    {
+      "nome": "Milão | 27 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161042252"
+    },
+    {
+      "nome": "Milão | 28 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161042265"
+    },
+    {
+      "nome": "Barcelona | 01 Mai 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041698"
+    },
+    {
+      "nome": "Barcelona | 02 Mai 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161041699"
+    },
+    {
+      "nome": "Barcelona | 05 Mai 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161075573"
+    },
+    {
+      "nome": "Barcelona | 06 Mai 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161085561"
+    },
+    {
+      "nome": "Londres | 09 Mai 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161093590"
+    },
+    {
+      "nome": "Londres | 10 Mai 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161093591"
     }
-  ],
-  "pausa_entre_concertos_seg": [
-    3,
-    6
   ]
 }
