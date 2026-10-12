@@ -17,12 +17,8 @@
   },
   "concertos": [
     {
-      "nome": "Cidade | Data",
-      "url": "https://www.viagogo.pt/COLA-AQUI-O-LINK-DO-CONCERTO"
-    },
-    {
-      "nome": "Outra cidade | Data",
-      "url": "https://www.viagogo.pt/COLA-AQUI-O-LINK-DO-CONCERTO"
+      "nome": "Paris | 23 Abr 2027",
+      "url": "https://www.viagogo.pt/Bilhetes-Concertos/Pop-Rock/Pop/Olivia-Rodrigo-Bilhetes/E-161042233"
     }
   ],
   "pausa_entre_concertos_seg": [
