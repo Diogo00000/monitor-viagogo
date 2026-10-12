@@ -340,7 +340,8 @@ async def ler_preco(pagina, url, cfg):
         corpo = (await pagina.inner_text("body")).lower()
         if any(p in corpo for p in PALAVRAS_BLOQUEIO) and not await pagina.locator("[data-listing-id]").count():
             return {"estado": "bloqueado", "preco": None, "diag": diag}
-        await fechar_janelas(pagina, qtd)
+        if cfg.get("interagir_com_pagina", False):
+            await fechar_janelas(pagina, qtd)
 
         diag["moeda_inicial"] = await pagina.evaluate(JS_MOEDA_CABECALHO)
         if cfg.get("forcar_eur_no_site", True) and diag["moeda_inicial"] not in (None, "EUR"):
@@ -349,7 +350,8 @@ async def ler_preco(pagina, url, cfg):
                 # a moeda mudou: recarregar o concerto já em EUR
                 await pagina.goto(url, wait_until="domcontentloaded", timeout=60000)
                 await _esperar_conteudo(pagina)
-                await fechar_janelas(pagina, qtd)
+                if cfg.get("interagir_com_pagina", False):
+                    await fechar_janelas(pagina, qtd)
 
         dados = await pagina.evaluate(JS_VIAGOGO)
         diag.update(dados)
@@ -428,14 +430,47 @@ def descrever(r):
     return eur(r["preco"])
 
 
-async def correr_ciclo(pagina, cfg, estado):
+async def nova_sessao(contexto, pagina):
+    """Apaga cookies e armazenamento e abre um separador novo, para cada concerto parecer uma visita nova."""
+    try:
+        await pagina.evaluate("() => { try { localStorage.clear(); sessionStorage.clear(); } catch (e) {} }")
+    except Exception:
+        pass
+    await contexto.clear_cookies()
+    nova = await contexto.new_page()
+    await pagina.close()
+    return nova
+
+
+async def guardar_falha(pagina, i, nome):
+    """Guarda captura e HTML de uma página sem preços, e regista o título e o início do texto."""
+    try:
+        pasta = PASTA / "falhas"
+        pasta.mkdir(exist_ok=True)
+        base = pasta / f"{i:02d}"
+        await pagina.screenshot(path=f"{base}.png")
+        Path(f"{base}.html").write_text(await pagina.content(), encoding="utf-8")
+        titulo = await pagina.title()
+        texto = re.sub(r"\s+", " ", (await pagina.inner_text("body")))[:200]
+        log(f"    página: {pagina.url}")
+        log(f"    título: {titulo!r} | texto: {texto!r}")
+    except Exception as ex:
+        log(f"    (não consegui guardar o diagnóstico: {str(ex).splitlines()[0][:80]})")
+
+
+async def correr_ciclo(contexto, pagina, cfg, estado):
     qtd = int(cfg.get("quantidade", 2))
     por_total = cfg.get("limite_por", "bilhete") == "total"
     resumo = []
+    # Limpa as capturas de falhas do ciclo anterior
+    for f in (PASTA / "falhas").glob("*"):
+        f.unlink()
     for i, c in enumerate(cfg["concertos"]):
         nome = c.get("nome") or f"Concerto {i}"
         url = montar_url(c["url"], cfg.get("parametros_url", {}))
         limite = float(c.get("limite_eur", cfg["limite_eur"]))
+        if i > 0 and cfg.get("limpar_sessao_entre_concertos", True):
+            pagina = await nova_sessao(contexto, pagina)
         r = await ler_preco(pagina, url, cfg)
         if r["estado"] == "ok":
             r["valor_comparado"] = r["preco"] * qtd if por_total else r["preco"]
@@ -446,6 +481,7 @@ async def correr_ciclo(pagina, cfg, estado):
             resumo.append((r["valor_comparado"], nome))
         else:
             log(f"{nome}: {r['estado']}")
+            await guardar_falha(pagina, i, nome)
 
         unidade = f"total ({qtd} bilhetes)" if por_total else "por bilhete"
         nota_cambio = f" Convertido de {r['moeda']}, o valor em euros pode variar ligeiramente." if r.get("convertido") else ""
@@ -525,7 +561,7 @@ async def principal(args):
         while True:
             inicio = time.monotonic()
             log("Início do ciclo")
-            await correr_ciclo(pagina, cfg, estado)
+            await correr_ciclo(contexto, pagina, cfg, estado)
             if args.uma_vez:
                 break
             espera = max(30, intervalo - (time.monotonic() - inicio) + random.uniform(-45, 45))
