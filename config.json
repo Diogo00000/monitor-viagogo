@@ -1,0 +1,32 @@
+{
+  "limite_eur": 180,
+  "limite_por": "bilhete",
+  "quantidade": 2,
+  "intervalo_minutos": 10,
+  "parametros_url": {
+    "quantity": "2"
+  },
+  "seletor_preco": "",
+  "headless": false,
+  "alertar_falhas_apos": 3,
+  "notificacoes": {
+    "ntfy_topico": "",
+    "ntfy_servidor": "https://ntfy.sh",
+    "telegram_token": "",
+    "telegram_chat_id": ""
+  },
+  "concertos": [
+    {
+      "nome": "Cidade | Data",
+      "url": "https://www.viagogo.pt/COLA-AQUI-O-LINK-DO-CONCERTO"
+    },
+    {
+      "nome": "Outra cidade | Data",
+      "url": "https://www.viagogo.pt/COLA-AQUI-O-LINK-DO-CONCERTO"
+    }
+  ],
+  "pausa_entre_concertos_seg": [
+    3,
+    6
+  ]
+}
