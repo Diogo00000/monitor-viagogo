@@ -64,6 +64,15 @@ jobs:
           name: calibracao
           path: calibracao.*
 
+      # Capturas das páginas onde não foi possível ler preços (para diagnóstico)
+      - name: Guardar capturas das falhas
+        if: ${{ always() && hashFiles('falhas/*') != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: falhas
+          path: falhas/
+          retention-days: 3
+
       - name: Guardar estado
         if: ${{ always() && hashFiles('estado.json') != '' }}
         uses: actions/cache/save@v4
