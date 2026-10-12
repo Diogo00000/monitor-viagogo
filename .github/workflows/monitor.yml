@@ -3,7 +3,8 @@ name: Monitor Viagogo
 
 on:
   schedule:
-    - cron: "*/10 * * * *"
+    # Minutos "estranhos": os horários redondos (:00, :10...) são os mais congestionados no GitHub
+    - cron: "4,14,24,34,44,54 * * * *"
   workflow_dispatch:
     inputs:
       modo:
